@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <title>Booking</title>
+    <style>
+        .sidebar {
+            width: 200px;
+            height: 100vh;
+            /* background: red; */
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+            transform: translateX(0);
+            position: fixed;
+            left: 0;
+            top: 0;
+            /* overflow-y: auto; */
+        }
+
+        .sidebar.hidden {
+            transform: translateX(-100%);
+        }
+
+        .sidebar h3 {
+            margin-top: 0;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: black;
+            display: block;
+            padding: 10px;
+            border-radius: 4px;
+            /* transition: background-color 0.3s ease; */
+        }
+
+        .sidebar ul li a:hover {
+            color: red;
+        }
+
+        .query {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            /* background: #fff; */
+        }
+
+        .answer-form {
+            margin-top: 10px;
+        }
+
+        .answer-form textarea {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin-bottom: 10px;
+            /* border: 1px solid #ccc; */
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .answer-form button {
+            /* background-color: #4CAF50; */
+            /* color: white; */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .answer-form button:hover {
+            background-color: gray;
+        }
+
+        .toggle-btn {
+            position: fixed;
+            top: 0px;
+            left: 190px;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            z-index: 1;
+            transition: left 0.3s ease;
+            background-color: red;
+            color: #fff;
+        }
+
+        .toggle-btn:hover {
+            background-color: grey;
+        }
+
+        .toggle-btn.active {
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="sidebar bg-body-tertiary" id="sidebar">
+        <img class="d-block m-auto" src="images/logo2.jpg" alt="logo" height="10%" width="70%"><br>
+        <ul>
+            <li><a href="Dashboard.html">Dashboard</a></li>
+            <li><a href="rentals.html">Manage Rentals</a></li>
+            <li><a href="queries.html">Manage Queries</a></li>
+            <li><a href="ManageCars.html">Manage Cars</a></li>
+            <li><a href="Home.html">Sign Out</a></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <h3 class="text-center pt-5" style="border-bottom: 1px solid red; width: 50%; margin: auto;">Manage Customers
+            Queries</h3>
+        <!-- <hr class="m-auto w-50" style="color: red;"> -->
+
+        <h2>Received Queries</h2>
+
+        <div id="queries">
+            <div class="query">
+                <strong>Name:</strong> Chetan Dhamgunde<br>
+                <strong>Email:</strong> chetandhamginde@gmail.com<br>
+                <strong>Message:</strong><br>
+                Where should I return a car?
+                <div class="answer-form">
+                    <textarea id="answer2" placeholder="Enter your answer..." rows="3"></textarea><br>
+                    <button onclick="submitAnswer(1)">Submit Answer</button>
+                </div>
+            </div>
+            <div class="query">
+                <strong>Name:</strong> Varad<br>
+                <strong>Email:</strong> varad@gmail.com<br>
+                <strong>Message:</strong><br>
+                I have a question about rental options.
+                <div class="answer-form">
+                    <textarea id="answer1" placeholder="Enter your answer..." rows="3"></textarea><br>
+                    <button onclick="submitAnswer(2)">Submit Answer</button>
+                </div>
+            </div>
+            <div class="query">
+                <strong>Name:</strong> abc<br>
+                <strong>Email:</strong> abc@gmail.com<br>
+                <strong>Message:</strong><br>
+                Can I rent a car for a week?
+                <div class="answer-form">
+                    <textarea id="answer2" placeholder="Enter your answer..." rows="3"></textarea><br>
+                    <button onclick="submitAnswer(3)">Submit Answer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toggle-btn" id="toggleSidebarBtn" onclick="toggleSidebar()">☰</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="JS.js"></script>
+
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            var toggleBtn = document.getElementById('toggleSidebarBtn');
+            sidebar.classList.toggle('hidden');
+            toggleBtn.classList.toggle('active');
+        }
+
+        function submitAnswer(queryId) {
+            var answerTextarea = document.getElementById('answer' + queryId);
+            var answer = answerTextarea.value.trim();
+            if (answer !== '') {
+                console.log('Answer submitted for query ' + queryId + ': ' + answer);
+                answerTextarea.value = '';
+                alert('Answer submitted successfully!');
+            } else {
+                alert('Please enter an answer.');
+            }
+        }
+    </script>
+</body>
+
+</html>
